@@ -1,18 +1,20 @@
 # event-converter-for-linux-perf
 
-Intel publishes PMU events JSON files on 01.org.
-(https://download.01.org/perfmon/) Or check [mirror](https://github.com/neolinsu/perfmon).
+Intel publishes PMU events JSON files on 01.org
+(https://download.01.org/perfmon/).
+Or check [mirror](https://github.com/neolinsu/perfmon).
 
 This project converts the Intel published events to Linux perf format
 events thus Linux perf can use Intel specific PMU events.
 
 This project uses "BSD clause 3" license (see COPYING).
 
-Examples (Skylakex):
+Examples
 ---------
-1. Generate core event json for one specified platform, such as skylakex.
+1. Generate core event json for one specified platform, such as cascadelakex.
 
-$ python json-to-perf-json.py --outdir ./skx-output skylakex_core_v1.24.json
+```bash
+$ python json-to-perf-json.py --outdir ./clx-output cascadelakex_core_v1.14.json
 cache.json
 floating-point.json
 frontend.json
@@ -20,29 +22,33 @@ memory.json
 other.json
 pipeline.json
 virtual-memory.json
-
+```
 skylakex_core_v1.24.json is downloaded from https://download.01.org/perfmon/.
 
 2. Generate uncore event json
 
+```bash
 $ python uncore_csv_json.py --all perf-uncore-events-clx.csv cascadelakex_uncore_v1.11.json ./clx-output cascadelakex_uncore_v1.11_experimental.json
 ......
 generating Uncore-Memory
 generating Uncore-Other
-
+```
 cascadelakex_uncore_v1.11.json and cascadelakex_uncore_v1.11_experimental.json
 are downloaded from https://download.01.org/perfmon/.
 
 3. Generate metrics for CLX
-
+```bash
 $ python extract-tma-metrics.py CLX TMA_Metrics.csv
-
+```
 TMA_Metrics.csv is downloaded from //download.01.org/perfmon/.
 
-4. Generate metrics for all archs
-$ ./EXTRACTMETRICS TMA_Metrics.csv
 
-Scripts usage:
+4. Generate metrics for all archs
+
+```
+$ ./EXTRACTMETRICS TMA_Metrics.csv
+```
+Scripts usage
 --------------
 csv-field.py
   - print csv fields from csv
@@ -129,5 +135,7 @@ uncore_csv_json.py
   - see example below
 
 Andi Kleen <ak@linux.intel.com>
+
 Liang Kan <kan.liang@intel.com>
+
 Jin Yao <yao.jin@linux.intel.com>
