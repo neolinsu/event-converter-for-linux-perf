@@ -1,12 +1,46 @@
 # event-converter-for-linux-perf
 
 Intel publishes PMU events JSON files on 01.org.
-(https://download.01.org/perfmon/)
+(https://download.01.org/perfmon/) Or check [mirror](https://github.com/neolinsu/perfmon).
 
 This project converts the Intel published events to Linux perf format
 events thus Linux perf can use Intel specific PMU events.
 
 This project uses "BSD clause 3" license (see COPYING).
+
+Examples (Skylakex):
+---------
+1. Generate core event json for one specified platform, such as skylakex.
+
+$ python json-to-perf-json.py --outdir ./skx-output skylakex_core_v1.24.json
+cache.json
+floating-point.json
+frontend.json
+memory.json
+other.json
+pipeline.json
+virtual-memory.json
+
+skylakex_core_v1.24.json is downloaded from https://download.01.org/perfmon/.
+
+2. Generate uncore event json
+
+$ python uncore_csv_json.py --all perf-uncore-events-clx.csv cascadelakex_uncore_v1.11.json ./clx-output cascadelakex_uncore_v1.11_experimental.json
+......
+generating Uncore-Memory
+generating Uncore-Other
+
+cascadelakex_uncore_v1.11.json and cascadelakex_uncore_v1.11_experimental.json
+are downloaded from https://download.01.org/perfmon/.
+
+3. Generate metrics for CLX
+
+$ python extract-tma-metrics.py CLX TMA_Metrics.csv
+
+TMA_Metrics.csv is downloaded from //download.01.org/perfmon/.
+
+4. Generate metrics for all archs
+$ ./EXTRACTMETRICS TMA_Metrics.csv
 
 Scripts usage:
 --------------
@@ -93,40 +127,6 @@ uncore_csv_json.py
   - generate split uncore json from csv spreadsheet input
   - uncore_csv_json.py csv orig-pme-json targetdir
   - see example below
-
-Examples:
----------
-1. Generate core event json for one specified platform, such as skylakex.
-
-$ python json-to-perf-json.py --outdir ./skx-output skylakex_core_v1.24.json
-cache.json
-floating-point.json
-frontend.json
-memory.json
-other.json
-pipeline.json
-virtual-memory.json
-
-skylakex_core_v1.24.json is downloaded from https://download.01.org/perfmon/.
-
-2. Generate uncore event json
-
-$ python uncore_csv_json.py --all perf-uncore-events-clx.csv cascadelakex_uncore_v1.11.json ./clx-output cascadelakex_uncore_v1.11_experimental.json
-......
-generating Uncore-Memory
-generating Uncore-Other
-
-cascadelakex_uncore_v1.11.json and cascadelakex_uncore_v1.11_experimental.json
-are downloaded from https://download.01.org/perfmon/.
-
-3. Generate metrics for CLX
-
-$ python extract-tma-metrics.py CLX TMA_Metrics.csv
-
-TMA_Metrics.csv is downloaded from //download.01.org/perfmon/.
-
-4. Generate metrics for all archs
-$ ./EXTRACTMETRICS TMA_Metrics.csv
 
 Andi Kleen <ak@linux.intel.com>
 Liang Kan <kan.liang@intel.com>
